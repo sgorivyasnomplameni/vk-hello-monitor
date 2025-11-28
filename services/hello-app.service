@@ -9,7 +9,7 @@ Type=simple
 EnvironmentFile=/opt/hello-monitor/config/config.env
 
 # Запуск Python-приложения
-ExecStart=/usr/bin/python3 /opt/hello-monitor/app/app.py
+ExecStart=/opt/hello-monitor/venv/bin/python /opt/hello-monitor/app/app.py
 
 # Автоматический перезапуск при падении
 Restart=always
