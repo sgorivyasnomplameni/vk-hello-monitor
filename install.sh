@@ -35,10 +35,18 @@ echo "[*] Creating log directory..."
 mkdir -p /var/log/hello-monitor
 
 echo "[*] Installing Python dependencies (if requirements.txt exists)..."
+
 if command -v python3 >/dev/null 2>&1; then
   if [[ -f "${APP_DIR}/requirements.txt" ]]; then
-    python3 -m pip install --upgrade pip >/dev/null 2>&1 || true
-    python3 -m pip install -r "${APP_DIR}/requirements.txt"
+    # Проверяем, есть ли venv, если нет — создаём
+    if [[ ! -d "${APP_DIR}/venv" ]]; then
+      echo "[*] Creating virtual environment in ${APP_DIR}/venv ..."
+      python3 -m venv "${APP_DIR}/venv"
+    fi
+
+    echo "[*] Installing dependencies into virtual environment..."
+    "${APP_DIR}/venv/bin/pip" install --upgrade pip
+    "${APP_DIR}/venv/bin/pip" install -r "${APP_DIR}/requirements.txt"
   else
     echo "[!] requirements.txt not found, skipping pip install."
   fi
