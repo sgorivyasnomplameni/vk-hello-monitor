@@ -1,0 +1,23 @@
+[Unit]
+Description=Hello World Flask App
+After=network.target
+
+[Service]
+Type=simple
+
+# Загружаем переменные окружения из config.env
+EnvironmentFile=/opt/hello-monitor/config/config.env
+
+# Запуск Python-приложения
+ExecStart=/usr/bin/python3 /opt/hello-monitor/app/app.py
+
+# Автоматический перезапуск при падении
+Restart=always
+RestartSec=2
+
+# От имени root (для простоты)
+User=root
+WorkingDirectory=/opt/hello-monitor/app
+
+[Install]
+WantedBy=multi-user.target

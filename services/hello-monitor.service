@@ -1,0 +1,19 @@
+[Unit]
+Description=Hello Monitor Service
+After=network.target hello-app.service
+
+[Service]
+Type=simple
+
+EnvironmentFile=/opt/hello-monitor/config/config.env
+
+ExecStart=/usr/bin/bash /opt/hello-monitor/monitor/monitor.sh
+
+Restart=always
+RestartSec=2
+
+User=root
+WorkingDirectory=/opt/hello-monitor/monitor
+
+[Install]
+WantedBy=multi-user.target
