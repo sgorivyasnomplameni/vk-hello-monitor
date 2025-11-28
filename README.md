@@ -36,13 +36,13 @@ README.md — описание решения
 ## Конфигурация
 
 Параметры находятся в файле config/config.env:
-
+```
 APP_PORT=5000
 APP_URL="http://127.0.0.1:${APP_PORT}/"
 CHECK_INTERVAL=5
 LOG_FILE="/var/log/hello-monitor/monitor.log"
 APP_SERVICE="hello-app.service"
-
+```
 Здесь можно изменить порт, интервал проверки, URL и путь к логам.
 
 ## Как работает
