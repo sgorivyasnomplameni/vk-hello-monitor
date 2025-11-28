@@ -41,9 +41,24 @@ restart:
 	sudo systemctl restart $(APP_SERVICE) $(MON_SERVICE)
 
 status:
-	sudo systemctl status $(APP_SERVICE)
+	@echo "=== Application service ==="
+	@systemctl is-active $(APP_SERVICE) >/dev/null 2>&1 && \
+	    echo "Status: ACTIVE" || echo "Status: INACTIVE"
+	@systemctl show -p MainPID --value $(APP_SERVICE) | awk '{print "PID:", $$0}'
 	@echo
-	sudo systemctl status $(MON_SERVICE)
+
+	@echo "=== Monitor service ==="
+	@systemctl is-active $(MON_SERVICE) >/dev/null 2>&1 && \
+	    echo "Status: ACTIVE" || echo "Status: INACTIVE"
+	@systemctl show -p MainPID --value $(MON_SERVICE) | awk '{print "PID:", $$0}'
+	@echo
+
+	@echo "=== Live HTTP check ($(APP_URL)) ==="
+	@curl -s -o /dev/null -w "HTTP status: %{http_code}\n" $(APP_URL)
+	@echo
+
+	@echo "=== Last log entries ==="
+	@sudo tail -n 8 $(LOG_FILE) | sed "s/^/    /"
 
 logs:
 	sudo tail -n 30 $(LOG_FILE)
